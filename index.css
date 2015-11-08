@@ -1,0 +1,52 @@
+h1 {
+	text-align: center;
+}
+
+#controls {
+	width: 400px;
+	height: 600px;
+	border-style: dotted;
+	float: right;
+	margin-right: 20px;
+}
+
+#my_canvas {
+	width: 800px; 
+	height: 100px;
+	/*border-style: dashed;*/
+	padding-top: 500px;
+	/*overflow-y: hidden;*/
+}
+
+#my_wordcloud_canvas {
+	width: 800px; 
+	height: 600px;
+	border-style: dashed;
+	/*padding-top: 500px;*/
+	/*padding-bottom: -500px;*/
+	/*overflow-y: hidden;*/
+}
+
+#wordCloudText {
+	margin-left: 15px;
+}
+
+#enterTextLabel {
+	margin-left: 15px;
+}
+
+#singleWordCloudButton {
+	height: 30px;
+	font-size: small;
+	margin: 20px auto 20px 100px;
+}
+
+#compoundWordCloudButton {
+	height: 30px;
+	font-size: small;
+	margin-left: 85px;
+}
+
+body {
+	overflow-y: hidden;
+}

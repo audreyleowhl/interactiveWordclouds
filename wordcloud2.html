@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>wordcloud2.html</title>
+    	<!-- This doesn't work in Google Chrome -->
+		<script type="text/javascript" src="wordcloud2.js-master/src/wordcloud2.js"></script>
+	</head>
+	<body>
+		<div id="my_canvas" style="width: 1170px; height: 760px;">
+			<!-- <canvas id="my_canvas" class="canvas" width="2340" height="1520" style="width: 1170px; height: 760px;"></canvas> -->
+		</div>
+		<script type="text/javascript">
+			var canvas = document.getElementById("my_canvas");
+			var wordcloud = WordCloud(canvas, { list: [['brian', 100], ['foo', 88], ['bar', 50], ['audrey', 35]] } );
+		</script>
+	</body>
+</html>

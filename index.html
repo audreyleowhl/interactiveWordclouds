@@ -1,0 +1,70 @@
+<!-- Copyright (c) 2011 Timothy Guan-tin Chien, http://timc.idv.tw/
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to
+deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
+sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta charset="utf-8"/>
+		<title>index.html</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <!-- Text corpus calculation in Javascript. Supports Chinese, English. -->
+		<script type="text/javascript" src="wordfreq-master/src/wordfreq.js"></script> <!-- Doesn't work in Chrome -->
+    <!-- Tag cloud/Wordle presentation on 2D canvas or HTML -->
+    <script type="text/javascript" src="wordcloud2.js-master/src/wordcloud2.js"></script> <!-- Doesn't work in Chrome -->
+	</head>
+	<body>
+    <h1>Interactive Wordclouds</h1>
+    <div id="controls">
+      <form>
+        <p id="enterTextLabel">Enter text here:</p>
+        <textarea id="wordCloudText" rows="30" cols="45" autocomplete="off"></textarea>
+        <br>
+        <button id="singleWordCloudButton" type="button" onclick="generateSingleWordCloud()">Generate single-word word cloud</button>
+        <button id="compoundWordCloudButton" type="button" onclick="generateCompoundWordCloud()">Generate compound-word word cloud</button>
+      </form>
+    </div>
+    <div id="my_canvas"></div>
+    <!-- <canvas id="my_wordcloud_canvas"></canvas> -->
+
+    <!-- Javascript to create the wordclouds -->
+    <script type="text/javascript">
+    // Function to generate single word word clouds
+    function generateSingleWordCloud() {
+      // Create an options object for initialization
+      var options = {
+        workerUrl: 'wordfreq-master/src/wordfreq.worker.js' };
+      // Get the text in the textarea
+      var text = document.getElementById("wordCloudText").value;
+      // Generate the word frequencies list and then use the list to generate the wordcloud
+      var wordfreq = WordFreq(options).process(text).getList(function (list) {
+        // var canvas = document.getElementById("my_wordcloud_canvas");
+        var canvas = document.getElementById("my_canvas");
+        // The options for the wordcloud
+        var options = {
+          list: list,
+          weightFactor: 5,
+          wait: 50,
+          gridSize: 6,
+          rotateRatio: 0
+        };
+        // Generate the wordcloud in the canvas with the options provided
+        var wordcloud = WordCloud(canvas, options);
+      });
+    }
+
+    // Function to generate compound word word clouds
+    function generateCompoundWordCloud() {
+      alert('Unfortunately this function has not been implemented yet');
+    }
+    </script>
+	</body>
+</html>
