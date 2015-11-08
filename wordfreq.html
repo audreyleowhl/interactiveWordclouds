@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>wordfreq.html</title>
+    	<!-- This doesn't work in Google Chrome -->
+		<script type="text/javascript" src="wordfreq-master/src/wordfreq.js"></script>
+	</head>
+	<body>
+		<div id="my_canvas" style="width: 1170px; height: 760px;"></div>
+		<script type="text/javascript">
+			// Create an options object for initialization
+			var options = {
+  				workerUrl: 'wordfreq-master/src/wordfreq.worker.js' };
+      		var text = "When in the Course of human events, it becomes necessary for one people to dissolve the political bands which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the Laws of Nature and of Nature's God entitle them, a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation.";
+			// Initialize and run process() function
+			var wordfreq = WordFreq(options).process(text, function (list) {
+  				// console.log the list returned in this callback.
+  				console.log(list);
+			});
+		</script>
+	</body>
+</html>
