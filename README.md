@@ -5,7 +5,7 @@
 The goal of this project is to create a web application which will allow users to create wordclouds which consist of single words as well as compound words. 
 
 ## Simple run of the web application
-Working project can be found [here](http://github.com/audreyleowhl/interactiveWordclouds/index.hmtl)
+Working project can be found [here](http://github.com/audreyleowhl/interactiveWordclouds/index.html)
 
 Run `index.html` in a web browser and then enter text in the textarea. Generate single-word wordclouds or compound-word wordclouds depending on the button you click.
 
