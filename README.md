@@ -10,7 +10,7 @@ Working project can be found [here](http://audreyleowhl.github.io)
 Run `index.html` in a web browser and then enter text in the textarea. Generate single-word wordclouds or compound-word wordclouds depending on the button you click.
 
 ## Web browsers
-This web application currently only works with Firefox. Further work is being done to make it compatible with all other web browsers.
+This web application currently works with all web browsers.
 
 ## Software
 This web application uses these external software:
