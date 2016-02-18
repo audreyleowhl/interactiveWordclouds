@@ -1,13 +1,15 @@
-# Interactive Wordclouds
+# Interactive Word Clouds
 
-3rd year project about Interactive Wordclouds.
+3rd year project about Interactive Word Clouds. 
 
-The goal of this project is to create a web application which will allow users to create wordclouds which consist of single words as well as compound words. 
+The goal of this project is to create a web application which will allow users to create word clouds which consist of single words as well as compound words from multiple sources of text.
 
-## Simple run of the web application
-Working project can be found [here](http://audreyleowhl.github.io)
+**Working project can be found [here](http://audreyleowhl.github.io)**
 
-Run `index.html` in a web browser and then enter text in the textarea. Generate single-word wordclouds or compound-word wordclouds depending on the button you click.
+## Ways of using the web application
+You can either enter text in the text area, or select a file from your computer to generate the text for the word cloud. By using the radio buttons to select between 'Text' and 'File', you can generate word clouds from either text or file. You can also choose to generate word clouds consisting of either single words or compound words by clicking on the buttons `Single word cloud` and `Compound word cloud` respectively. 
+
+The `Compound word cloud` button is currently disabled while I work on the functionality for it.
 
 ## Web browsers
 This web application currently works with all web browsers.
