@@ -1,6 +1,6 @@
 # Interactive Word Clouds
 
-3rd year project about Interactive Word Clouds. 
+3rd year project about Interactive Word Clouds.
 
 The goal of this project is to create a web application which will allow users to create word clouds which consist of single words as well as compound words from multiple sources of text.
 
@@ -21,3 +21,4 @@ This web application currently works with all web browsers.
 This web application uses these external software:
 - [wordfreq](https://github.com/timdream/wordfreq) by timdream
 - [wordcloud2.js](https://github.com/timdream/wordcloud2.js) by timdream
+- [pdf.js](https://mozilla.github.io/pdf.js/) by mozilla
