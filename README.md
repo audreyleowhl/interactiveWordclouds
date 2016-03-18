@@ -18,7 +18,18 @@ You can also choose to generate word clouds consisting of either single words or
 
 The `Clear text` button allows you to clear all the text in the text area, and clicking on `How to use` opens up this page on a new tab or window, allowing you to see what can be done in this web application and more information about it.
 
-The `Compound word cloud` button is currently disabled while I work on the functionality for it.
+### How to generate compound word clouds
+
+To generate compound word clouds, you will need to select a text file in your local system which contains the following format:
+
+````
+8   ice cream
+1   compound word
+````
+
+where the numbers represent the frequency of the compound word. The spacing between the frequency and the compound word should be a tab key.
+
+Once the text file has been selected, you can click on the `Compound word cloud` button to generate the compound word cloud from the text file.
 
 ## Web browsers
 
@@ -38,3 +49,4 @@ This web application uses these external software:
 - [wordfreq](https://github.com/timdream/wordfreq) by timdream
 - [wordcloud2.js](https://github.com/timdream/wordcloud2.js) by timdream
 - [pdf.js](https://mozilla.github.io/pdf.js/) by mozilla
+- [Termine web service](http://www.nactem.ac.uk/software/termine/webservice_key/) by NaCTeM

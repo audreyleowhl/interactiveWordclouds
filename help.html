@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+		<title>Interactive Word Clouds</title>
+    	<link rel="stylesheet" type="text/css" href="index.css">
+    </head>
+    <body>
+        <header>
+			<h1 id="headerTitle">Interactive Word Clouds</h1>
+			<a class="headerButton" href="index.html">Home</a>
+		</header>
+
+        <div id="aboutProject">
+            <h1>What is it all about?</h1>
+            <p>
+                3rd year project about Interactive Word Clouds. <br><br>
+
+                The goal of this project is to create a web application which will allow users to create word clouds which consist of single words as well as compound words from multiple sources of text.
+            </p>
+
+            <h1>Ways of using the web application</h1>
+            <p>
+                You can either enter text in the text area, or select a file from your computer to generate the text for the word cloud.<br><br>
+
+                If you have selected a file but wish to change your file selection, you can just select another file, and that should replace the file you previously selected.<br><br>
+
+                By using the radio buttons to select between 'Text' and 'File', you can choose to generate word clouds from either text or file. Selecting <code>Text</code> means that you chose to generate word clouds from the text entered in the text area, while selecting <code>File</code> means that you chose to generate word clouds from the file selected.<br><br>
+
+                You can also choose to generate word clouds consisting of either single words or compound words by clicking on the buttons <code>Single word cloud</code> and <code>Compound word cloud</code> respectively. If you are not happy with the created word cloud, clicking on the button again will regenerate the word cloud.<br><br>
+
+                The <code>Clear text</code> button allows you to clear all the text in the text area, and clicking on <code>How to use</code> allows you to see what can be done in this web application and more information about it.
+            </p>
+
+            <h2>How to generate compound word clouds</h2>
+            <p>
+              To generate compound word clouds, you will need to select a text file in your local system which contains the following format:
+            </p>
+            <pre>
+                8   ice cream
+                1   compound word
+            </pre>
+            <p>
+              where the numbers represent the frequency of the compound word. The spacing between the frequency and the compound word should be a tab key.<br><br>
+
+              Once the text file has been selected, you can click on the <code>Compound word cloud</code> button to generate the compound word cloud from the text file.
+            </p>
+
+            <h1>Web browsers</h1>
+            <p>
+                This web application currently works with all web browsers.
+            </p>
+
+            <h1>File formats</h1>
+            <p>
+                This web application currently only works with these file formats:
+                <ul>
+                    <li>.txt</li>
+                    <li>.pdf</li>
+                </ul>
+            </p>
+            <p>
+                More work is currently being done to allow for more file formats.
+            </p>
+
+            <h1>Software</h1>
+            <p>
+                This web application uses these external software:<br><br>
+                <ul>
+                    <li><a class="externalResources" href="https://github.com/timdream/wordfreq" target="_blank">wordfreq</a> by timdream</li>
+                    <li><a class="externalResources" href="https://github.com/timdream/wordcloud2.js" target="_blank">wordcloud2.js</a> by timdream</li>
+                    <li><a class="externalResources" href="https://mozilla.github.io/pdf.js/" target="_blank">pdf.js</a> by mozilla</li>
+                    <li><a class="externalResources" href="http://www.nactem.ac.uk/software/termine/webservice_key/" target="_blank">Termine web service</a> by NaCTeM</li>
+                </ul>
+            </p>
+        </div>
+
+        <footer>
+    		<p class="footer">Created by Audrey Leow, with help from other external sources</p>
+    	</footer>
+    </body>
+</html>

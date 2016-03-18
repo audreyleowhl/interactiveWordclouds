@@ -48,21 +48,38 @@ var WordFreqSync = function WordFreqSync(options) {
 
       case 'english1':
         options.stopWords = options.stopWords.concat([
-          'i','a','about', 'an','and','are','as','at',
-          'be', 'been','by','com','for', 'from','how','in',
-          'is','it','not', 'of','on','or','that',
-          'the','this','to','was', 'what','when','where', 'which',
-          'who','will','with', 'www','the']);
+          'a','about','an','and','as','at','am','all','any',
+          'be','because','been','by',
+          'com','can','cannot','could',
+          'did','do','does','doing','during',
+          'each',
+          'few','for','from',
+          'having','how',
+          'in','into',
+          'more','most','must',
+          'no','nor','not',
+          'of','on','or',
+          'some','such','so',
+          'than','that','there', 'these', 'those','the','this','to','through','too',
+          'until',
+          'very',
+          'what','when','where','which',
+          'who','will','with','www','while']);
         break;
 
       case 'english2':
         options.stopWords = options.stopWords.concat([
-          'we', 'us', 'our', 'ours',
-          'they', 'them', 'their', 'he', 'him', 'his',
-          'she', 'her', 'hers', 'it', 'its', 'you', 'yours', 'your',
-          'has', 'have', 'would', 'could', 'should', 'shall',
-          'can', 'may', 'if', 'then', 'else', 'but',
-          'there', 'these', 'those']);
+          'we','us','our','ours','ourselves',
+          'they','them','their','theirs','themselves',
+          'he','him','his','himself',
+          'she','her','hers','herself',
+          'it','its','itself',
+          'you','yours','your','yourself','yourselves',
+          'i','me','my','mine','myself',
+          'is','was','are','were',
+          'has','have','would','should','shall',
+          'may','if','then','else','but',
+          'has','had']);
         break;
     }
   });
@@ -106,7 +123,8 @@ var WordFreqSync = function WordFreqSync(options) {
         var stems = Object.create(null);
 
         // say bye bye to characters that is not belongs to a word
-        var words = text.split(/[^A-Za-zéÉ'’_\-0-9@\.]+/);
+        // var words = text.split(/[^A-Za-zéÉ'’_\-0-9@\.]+/);
+        var words = text.split(/[^A-Za-zéÉ'’_\-0-9@]+/);
 
         var stopWords = options.stopWords;
 

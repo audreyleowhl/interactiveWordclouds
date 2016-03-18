@@ -1,7 +1,7 @@
 <!-- Copyright (c) 2011 Timothy Guan-tin Chien, http://timc.idv.tw/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to
-deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
+deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
 sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
@@ -13,58 +13,353 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
 <!DOCTYPE html>
 <html>
 	<head>
-    <meta charset="utf-8"/>
-		<title>index.html</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
-    <!-- Text corpus calculation in Javascript. Supports Chinese, English. -->
-		<script type="text/javascript" src="wordfreq-master/src/wordfreq.js"></script> <!-- Doesn't work in Chrome -->
-    <!-- Tag cloud/Wordle presentation on 2D canvas or HTML -->
-    <script type="text/javascript" src="wordcloud2.js-master/src/wordcloud2.js"></script> <!-- Doesn't work in Chrome -->
+    	<meta charset="utf-8"/>
+		<title>Interactive Word Clouds</title>
+    	<link rel="stylesheet" type="text/css" href="index.css">
+    	<!-- Text corpus calculation in Javascript. Supports Chinese, English. -->
+		<script type="text/javascript" src="wordfreq-master/src/wordfreq.js"></script>
+    	<!-- Tag cloud/Wordle presentation on 2D canvas or HTML -->
+    	<script type="text/javascript" src="wordcloud2.js-master/src/wordcloud2.js"></script>
+		<!-- pdf.js which allows me to handle pdf files -->
+		<script type="text/javascript" src="pdf.js-gh-pages/build/pdf.js"></script>
 	</head>
-	<body>
-    <h1>Interactive Wordclouds</h1>
-    <div id="controls">
-      <form>
-        <p id="enterTextLabel">Enter text here:</p>
-        <textarea id="wordCloudText" rows="30" cols="45" autocomplete="off"></textarea>
-        <br>
-        <button id="singleWordCloudButton" type="button" onclick="generateSingleWordCloud()">Generate single-word word cloud</button>
-        <button id="compoundWordCloudButton" type="button" onclick="generateCompoundWordCloud()">Generate compound-word word cloud</button>
-      </form>
-    </div>
-    <div id="my_canvas"></div>
-    <!-- <canvas id="my_wordcloud_canvas"></canvas> -->
+	<body onload="resetPage()">
+		<header>
+			<h1 id="headerTitle">Interactive Word Clouds</h1>
+			<a class="headerButton" href="help.html">How to use</a>
+		</header>
 
-    <!-- Javascript to create the wordclouds -->
-    <script type="text/javascript">
-    // Function to generate single word word clouds
-    function generateSingleWordCloud() {
-      // Create an options object for initialization
-      var options = {
-        workerUrl: 'wordfreq-master/src/wordfreq.worker.js' };
-      // Get the text in the textarea
-      var text = document.getElementById("wordCloudText").value;
-      // Generate the word frequencies list and then use the list to generate the wordcloud
-      var wordfreq = WordFreq(options).process(text).getList(function (list) {
-        // var canvas = document.getElementById("my_wordcloud_canvas");
-        var canvas = document.getElementById("my_canvas");
-        // The options for the wordcloud
-        var options = {
-          list: list,
-          weightFactor: 5,
-          wait: 50,
-          gridSize: 6,
-          rotateRatio: 0
-        };
-        // Generate the wordcloud in the canvas with the options provided
-        var wordcloud = WordCloud(canvas, options);
-      });
-    }
+    	<div id="controls">
+      		<form>
+        		<p id="enterTextLabel" class="formContents">You can either enter your text here:</p>
+        		<textarea autofocus class="formContents" id="wordCloudText" rows="25" cols="45" autocomplete="off" onkeyup="radioChangeToText()"></textarea>
+        		<br>
+        		<button id="clearText" type="button" onclick="clearTextArea()">Clear text</button>
+        		<br>
 
-    // Function to generate compound word word clouds
-    function generateCompoundWordCloud() {
-      alert('Unfortunately this function has not been implemented yet');
-    }
-    </script>
+        		<p class="formContents">Or upload your file here:</p>
+        		<div class="formBox formContents">
+					<input class="formContents" id="fileUpload" type="file" accept="application/pdf,text/html,text/plain" onchange="radioChangeToFile()"></input>
+        		</div>
+
+        		<br>
+				<br>
+        		<div class="formBox formContents">
+        			<input class="selection" id="textRadioSelection" name="radioSelection" type="radio" value="text" onclick="makeTextRadioChecked()">
+        				<label>Text</label>
+        			</input>
+        			<input class="selection" id="fileRadioSelection" name="radioSelection" type="radio" value="file" onclick="makeFileRadioChecked()">
+        				<label>File</label>
+        			</input>
+        		</div>
+
+        		<br>
+        		<button id="wordCloudButton" type="button" onclick="generateSingleWordCloud()">Single word cloud</button>
+						<button id="wordCloudButton" type="button" onclick="generateCompoundWordCloud()">Compound word cloud</button>
+      		</form>
+    	</div>
+    	<!-- <div id="my_canvas"></div> -->
+		<canvas id="my_canvas" width="800" height="650"></canvas>
+
+    	<footer>
+    		<p class="footer">Created by Audrey Leow, with help from other external sources</p>
+    	</footer>
+
+	    <!-- Javascript to create the wordclouds -->
+	    <script type="text/javascript">
+	    // Function to make sure that only the text radio button has the checked attribute
+	    function makeTextRadioChecked() {
+	    	var textRadioButton = document.getElementById("textRadioSelection");
+	    	var fileRadioButton = document.getElementById("fileRadioSelection");
+
+	    	// Add checked attribute to the radio button for text
+	    	textRadioButton.checked = true;
+	    	// Remove checked attribute to radio button for file
+	    	fileRadioButton.checked = false;
+	    }//makeTextRadioChecked
+
+	    // Function to make sure that only the file radio button has the checked attribute
+	    function makeFileRadioChecked() {
+	    	var textRadioButton = document.getElementById("textRadioSelection");
+	    	var fileRadioButton = document.getElementById("fileRadioSelection");
+
+	    	// Add checked attribute to radio button for file
+	    	fileRadioButton.checked = true;
+	    	// Remove checked attribute to radio button for text
+	    	textRadioButton.checked = false;
+	    }//makeFileRadioChecked
+
+	    // Function to change radio button to file
+	    function radioChangeToFile() {
+	    	var fileContents = document.getElementById("fileUpload").files;
+	    	var file = fileContents[0];
+
+	    	var textRadioButton = document.getElementById("textRadioSelection");
+	    	var fileRadioButton = document.getElementById("fileRadioSelection");
+
+			if (file) {
+				// If there is, then add the checked attribute to the radio button for file
+				fileRadioButton.checked = true;
+	    		// Remove the checked attribute to the radio button for text
+	    		textRadioButton.checked = false;
+	    	}
+	    }//radioChangeToFile
+
+	    // Function to change radio button to text
+	    function radioChangeToText() {
+	    	var text = document.getElementById("wordCloudText").value;
+	    	var textRadioButton = document.getElementById("textRadioSelection");
+	    	var fileRadioButton = document.getElementById("fileRadioSelection");
+
+	    	if (text != "") {
+	    		// If there is, then add the checked attribute to the radio button for text
+				textRadioButton.checked = true;
+	    		// Remove the checked attribute to the radio button for file
+	    		fileRadioButton.checked = false;
+	    	}
+	    }//radioChangeToText
+
+	    // Function to reset the page
+	    function resetPage() {
+	    	setTimeout(function() {
+	    		var canvas = document.getElementById("my_canvas");
+	    		// Clear the canvas
+	    		canvas.innerHTML = "";
+	    		var fileInput = document.getElementById("fileUpload");
+	    		// Clear the file input
+	    		fileInput.value = "";
+	    		// Set the focus to be on the text area
+	    		var textArea = document.getElementById("wordCloudText");
+	    		textArea.focus();
+	    		var textRadioButton = document.getElementById("textRadioSelection");
+	    		var fileRadioButton = document.getElementById("fileRadioSelection");
+	    		textRadioButton.checked = true;
+	    		fileRadioButton.checked = false;
+	    	}, 100);
+	    }//resetPage
+
+	    // Function to clear the text area
+	    function clearTextArea() {
+	    	var textArea = document.getElementById("wordCloudText");
+	    	// Clear the text area
+	    	textArea.value = "";
+	    }//clearTextArea
+
+			// Function to display the word cloud consisting of single words
+			function displaySingleWordCloud(text) {
+				// Create an options object for initialization
+	    	var options = {
+	      		workerUrl: 'wordfreq-master/src/wordfreq.worker.js',
+	      		minimumCount: 1
+	    	};
+
+				// Generate the word frequencies list and then use the list to generate the wordcloud
+				var wordfreq = WordFreq(options).process(text).getList(function (list) {
+					var canvas = document.getElementById("my_canvas");
+					var listToUse = list;
+					var options = {};
+					var weight = 0;
+
+					// Create a shortened list which only has 60 words if the length of original list is more than 60
+					if (list.length > 60) {
+						var shortenedList = list.slice(0, 60);
+						listToUse = shortenedList;
+					}
+
+					console.log("Word with largest word frequency: " + listToUse[0][0]);
+					console.log("Word frequency for that word: " + listToUse[0][1]);
+
+					if (listToUse[0][1] <= 10) {
+						weight = 10;
+					} else if (listToUse[0][1] > 10 && listToUse[0][1] <= 20) {
+						weight = 8;
+					} else if (listToUse[0][1] > 20 && listToUse[0][1] <= 50){
+						weight = 4;
+					} else if (listToUse[0][1] > 50 && listToUse[0][1] <= 70) {
+						weight = 2.5;
+					} else if (listToUse[0][1] > 70 && listToUse[0][1] <= 100) {
+						weight = 1;
+					} else {
+						weight = 0.17;
+					}
+
+					// Generate the options
+					options = {
+						list: listToUse,
+						weightFactor: weight,
+						wait: 50,
+						rotateRatio: 0
+					};
+
+					// Generate the wordcloud in the canvas with the options provided
+					var wordcloud = WordCloud(canvas, options);
+				});
+			}//displaySingleWordCloud
+
+	    // Function to generate single word word clouds
+	    function generateSingleWordCloud() {
+	    	// See which radio button is checked
+	    	var textRadioButton = document.getElementById("textRadioSelection");
+	    	var fileRadioButton = document.getElementById("fileRadioSelection");
+
+	    	if (fileRadioButton.checked) {	// User chose to create word cloud from file
+	    		// Get the contents of the file
+	      		var fileContents = document.getElementById("fileUpload").files;
+	      		var file = fileContents[0];
+
+	      		if (file) {
+	      			var fReader = new FileReader();
+	      			var textType = /text.*/;
+					var pdfType = /application.pdf/;
+
+	      			if (file.type.match(textType)) {	// If the type of file is a text file
+	      				fReader.onload = function(e) {
+	      					var fileText = fReader.result;
+	      					// Only generate the word cloud if we have some text
+	      					if (fileText != "") {
+	      						displaySingleWordCloud(fileText);
+	      					} else {
+	      						// Clear the canvas as we have no text
+	      						var canvas = document.getElementById("my_canvas");
+	      						canvas.innerHTML = "";
+	      					}
+	      				}
+	      				// Read the contents of the text file
+	      				fReader.readAsText(file);
+	      			} else if (file.type.match(pdfType)) {	// If the type of file is a PDF file
+						fReader.onload = function(e) {
+							var currPage = 1;
+							var numPages = 0;
+							var thePDF = null;
+
+							var pageText = "";
+							var overallText = "";
+							var str = new Array();
+
+	      					var fileData = fReader.result;
+
+							// Function to handle getting the text content of PDF files and generating word cloud from it
+							function handlePages(page) {
+								page.getTextContent().then(function(textContent) {
+									for (var i = 0; i < textContent.items.length; i++) {
+										str.push(textContent.items[i].str);
+									}
+									pageText = str.join("");
+
+									// Generate the word cloud if we have read all the pages in the file
+									if (currPage == numPages + 1) {
+										overallText = pageText;
+										displaySingleWordCloud(overallText);
+									}
+								});
+								// Move on to the next page
+								currPage++;
+    							if (thePDF !== null && currPage <= numPages)
+    							{
+        							thePDF.getPage(currPage).then(handlePages);
+    							}
+							}
+
+							PDFJS.getDocument(fileData).then(function(pdf) {
+								// Set PDFJS global object (so we can easily access in our page functions)
+								thePDF = pdf;
+								// How many pages it has
+								numPages = pdf.pdfInfo.numPages;
+								// Start with the first page
+								pdf.getPage(1).then(handlePages);
+							});
+	      				}
+	      				// Read the contents of the PDF file
+	      				fReader.readAsArrayBuffer(file);
+	      			} else {
+	      				alert("This file format is not supported! Please try again.");
+	      			}
+	  			}
+	    	} else if (textRadioButton.checked) {	// User chose to create word cloud from text
+	    		// Get the text in the textarea
+	      		var text = document.getElementById("wordCloudText").value;
+	      		// Only generate the word cloud if the text area is not empty
+	      		if (text != "") {
+					displaySingleWordCloud(text);
+	      		} else {
+	      			// Clear the canvas as we have no text
+	      			var canvas = document.getElementById("my_canvas");
+	      			canvas.innerHTML = "";
+	      		}
+	    	}
+	    }//generateSingleWordCloud
+
+	    // Function to generate compound word word clouds
+	    function generateCompoundWordCloud() {
+				var fileContents = document.getElementById("fileUpload").files;
+				var file = fileContents[0];
+
+				if (file) {
+					var fReader = new FileReader();
+					var textType = /text.*/;
+
+					if (file.type.match(textType)) {
+						fReader.onload = function(e) {
+							var fileText = fReader.result;
+							// Only generate the word cloud if we have some text
+							if (fileText != "") {
+								// Parse file and create list for wordcloud2.js
+								var fileTextList = fileText.split("\n");
+								var listToUse = [];
+								for (var row = 0; row < fileTextList.length; row++) {
+									if (fileTextList[row] != "") {
+										var rowList = fileTextList[row].split("\t");
+										listToUse.push([rowList[1], rowList[0]]);
+									}
+								}
+
+								var canvas = document.getElementById("my_canvas");
+								var options = {};
+								var weight = 0;
+
+								// Create a shortened list which only has 60 words if the length of original list is more than 60
+								if (listToUse.length > 60) {
+									var shortenedList = listToUse.slice(0, 60);
+									listToUse = shortenedList;
+								}
+
+								if (listToUse[0][1] <= 10) {
+									weight = 10;
+								} else if (listToUse[0][1] > 10 && listToUse[0][1] <= 20) {
+									weight = 8;
+								} else if (listToUse[0][1] > 20 && listToUse[0][1] <= 50){
+									weight = 4;
+								} else if (listToUse[0][1] > 50 && listToUse[0][1] <= 70) {
+									weight = 2.5;
+								} else if (listToUse[0][1] > 70 && listToUse[0][1] <= 100) {
+									weight = 1;
+								} else {
+									weight = 0.17;
+								}
+
+								// Generate the options
+								options = {
+									list: listToUse,
+									weightFactor: weight,
+									wait: 50,
+									rotateRatio: 0
+								};
+
+								// Generate the wordcloud in the canvas with the options provided
+								var wordcloud = WordCloud(canvas, options);
+							} else {
+								// Clear the canvas as we have no text
+								var canvas = document.getElementById("my_canvas");
+								canvas.innerHTML = "";
+							}
+						}
+						// Read the contents of the text file
+						fReader.readAsText(file);
+					} else {
+						alert("This file format is not supported! Please try again.");
+					}
+				}
+	  	}//generateCompoundWordCloud
+	    </script>
 	</body>
 </html>
